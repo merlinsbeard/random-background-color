@@ -5,6 +5,7 @@ import {
   Route,
   useParams,
   Link,
+  useHistory,
 } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -14,6 +15,12 @@ type ColorParams = {
 
 const Colour = () => {
   const { color } = useParams<ColorParams>();
+  const history = useHistory();
+
+  if (color === "random") {
+    history.push(`/${randomHexColor()}`);
+  }
+
   if (color) {
     return (
       <div className="main" style={{ backgroundColor: `#${color}` }}></div>
