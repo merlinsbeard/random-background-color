@@ -1,3 +1,3 @@
-# random-background-color
+# Background Color Randomizer
 
-random background to be used as full screen
+This project was created so I can have a colored screen without having to decide which color to choose.
