@@ -21,6 +21,24 @@ const Colour = () => {
     history.push(`/${randomHexColor()}`);
   }
 
+  const handleKeyPress = ({ key }: KeyboardEvent) => {
+    if (key === "ArrowRight") {
+      history.push(`/${randomHexColor()}`);
+    }
+    if (key === "ArrowLeft") {
+      history.goBack();
+    }
+    if (key === "ArrowUp") {
+      history.push(`/`);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [handleKeyPress]);
   if (color) {
     return (
       <div className="main" style={{ backgroundColor: `#${color}` }}></div>
@@ -78,10 +96,10 @@ const Home = () => {
   }, [limit]);
 
   useEffect(() => {
-    setLimit(
+    const n =
       Math.floor(windowDimension.width / colorCardSize.width) *
-        Math.floor(windowDimension.height / colorCardSize.height)
-    );
+      Math.floor(windowDimension.height / colorCardSize.height);
+    setLimit(n);
   }, [windowDimension]);
 
   return (
