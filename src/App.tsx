@@ -36,10 +36,11 @@ const randomHexColor = () => {
 };
 
 const Home = () => {
-  const [colorCardSize, setColorCardSize] = useState({
+  const colorCardSize = {
     height: 90,
     width: 90,
-  });
+  };
+
   const [colors, setColors] = useState<string[]>([]);
   const [windowDimension, setWindowDimension] = useState({
     width: window.innerWidth,
@@ -64,6 +65,9 @@ const Home = () => {
 
   useEffect(() => {
     window.addEventListener("resize", handleResize, false);
+    return () => {
+      window.removeEventListener("resize", handleResize, false);
+    };
   }, []);
 
   useEffect(() => {
