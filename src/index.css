@@ -157,3 +157,13 @@ a.color-block {
 a.color-block:hover {
   transform: scale(1.5);
 }
+
+#root {
+  height: 100vh;
+  display: flex;
+}
+
+.main {
+  width: 100%;
+  height: 100%;
+}
