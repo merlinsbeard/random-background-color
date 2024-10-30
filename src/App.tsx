@@ -8,6 +8,7 @@ import {
   useHistory,
 } from "react-router-dom";
 import { useEffect, useState } from "react";
+import * as d3 from "d3";
 
 type ColorParams = {
   color: string;
@@ -19,6 +20,18 @@ const randomHexColor = () => {
     .padStart(6, "0");
 };
 
+const currentColorDarkerOrBrighter = (
+  hex: string,
+  type: "darker" | "brighter" = "darker"
+) => {
+  const c = d3.color(`#${hex}`);
+  if (c == null) {
+    return hex;
+  }
+  const k = 0.1;
+  const newColor = type === "darker" ? c.darker(k) : c.brighter(k);
+  return newColor.formatHex().substring(1);
+};
 
 const Colour = () => {
   const { color } = useParams<ColorParams>();
@@ -36,10 +49,12 @@ const Colour = () => {
       history.goBack();
     }
     if (key === "ArrowUp") {
-      history.push(`/`);
+      history.push(`/${currentColorDarkerOrBrighter(color, "brighter")}`);
+    }
+    if (key === "ArrowDown") {
+      history.push(`/${currentColorDarkerOrBrighter(color, "darker")}`);
     }
   };
-
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyPress);
@@ -55,7 +70,6 @@ const Colour = () => {
   }
   return <div>...loading</div>;
 };
-
 
 const Home = () => {
   const history = useHistory();
