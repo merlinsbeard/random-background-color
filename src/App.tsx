@@ -13,6 +13,13 @@ type ColorParams = {
   color: string;
 };
 
+const randomHexColor = () => {
+  return Math.floor(Math.random() * 16777215)
+    .toString(16)
+    .padStart(6, "0");
+};
+
+
 const Colour = () => {
   const { color } = useParams<ColorParams>();
   const history = useHistory();
@@ -33,12 +40,14 @@ const Colour = () => {
     }
   };
 
+
   useEffect(() => {
     window.addEventListener("keydown", handleKeyPress);
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
   }, [handleKeyPress]);
+
   if (color) {
     return (
       <div className="main" style={{ backgroundColor: `#${color}` }}></div>
@@ -47,13 +56,9 @@ const Colour = () => {
   return <div>...loading</div>;
 };
 
-const randomHexColor = () => {
-  return Math.floor(Math.random() * 16777215)
-    .toString(16)
-    .padStart(6, "0");
-};
 
 const Home = () => {
+  const history = useHistory();
   const colorCardSize = {
     height: 90,
     width: 90,
@@ -80,6 +85,19 @@ const Home = () => {
       height: window.innerHeight,
     });
   };
+
+  const handleKeyPress = ({ key }: KeyboardEvent) => {
+    if (key === "ArrowRight") {
+      history.push(`/${randomHexColor()}`);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [handleKeyPress]);
 
   useEffect(() => {
     window.addEventListener("resize", handleResize, false);
